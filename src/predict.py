@@ -1,68 +1,107 @@
 import pandas as pd
-import re
-import nltk
-from textblob import TextBlob
-from nltk.corpus import stopwords
-
-# Read CSV file
-df = pd.read_csv("data.csv")
-
-# Function to classify sentiment
-def get_sentiment(comment):
-    polarity = TextBlob(str(comment)).sentiment.polarity
-
-    if polarity > 0.3:
-        return "Positive"
-    elif polarity < -0.3:
-        return "Negative"
-    else:
-        return "Neutral"
-
-stop_words = set(stopwords.words("english"))
-
-def preprocess_text(text):
-
-    # Convert to string
-    text = str(text)
-
-    # Convert to lowercase
-    text = text.lower()
-
-    # Remove URLs
-    text = re.sub(r"http\S+|www\S+|https\S+", "", text)
-
-    # Remove punctuation and special characters
-    text = re.sub(r"[^a-zA-Z\s]", "", text)
-
-    # Split text into words
-    words = text.split()
-
-    # Remove stop words
-    words = [word for word in words if word not in stop_words]
-
-    # Join words back together
-    text = " ".join(words)
-
-    return text
+import joblib
+import os
+from preprocessing import preprocess_text
 
 
-# Apply preprocessing
-df["sentiment"] = df["comment"].apply(get_sentiment)
+def load_model():
+    """Load the trained model and vectorizer from the models folder."""
 
-df["cleaned_comment"] = df["comment"].apply(preprocess_text)
+    # Get the path to the models folder
+    # os.path.dirname(__file__) gives us the 'src' folder
+    # Then we go up one level and into 'models'
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    models_dir = os.path.join(base_dir, "..", "models")
 
-# -----------------------------
-# STEP 3: SAVE FINAL DATASET
-# -----------------------------
-df = df[["comment", "cleaned_comment", "sentiment"]]
-df.to_csv("final_processed_comments.csv", index=False)
+    model_path = os.path.join(models_dir, "model.pkl")
+    vectorizer_path = os.path.join(models_dir, "vectorizer.pkl")
+
+    # Check if model files exist
+    if not os.path.exists(model_path):
+        print("Error: model.pkl not found! Please run train_model.py first.")
+        return None, None
+
+    if not os.path.exists(vectorizer_path):
+        print("Error: vectorizer.pkl not found! Please run train_model.py first.")
+        return None, None
+
+    # Load the model and vectorizer
+    model = joblib.load(model_path)
+    vectorizer = joblib.load(vectorizer_path)
+
+    print("Model and vectorizer loaded successfully!")
+    return model, vectorizer
 
 
-# Display final dataset
-print(df)
-pd.set_option("display.max_columns", None)
-pd.set_option("display.max_colwidth", None)
-pd.set_option("display.width", 200)
+def predict_sentiment(text, model, vectorizer):
+    """Predict the sentiment of a single comment.
+    
+    Steps:
+    1. Preprocess the text (clean it)
+    2. Convert text to numbers using the vectorizer
+    3. Use the model to predict sentiment
+    """
 
-print("\nFINAL PROCESSED DATASET:\n")
-print(df.to_string(index=False))
+    # Step 1: Clean the text
+    cleaned_text = preprocess_text(text)
+
+    # Step 2: Convert to numerical features
+    # We put it in a list because the vectorizer expects a list of texts
+    text_features = vectorizer.transform([cleaned_text])
+
+    # Step 3: Predict
+    prediction = model.predict(text_features)
+
+    return prediction[0]
+
+
+def predict_from_csv(file_path, model, vectorizer):
+    """Predict sentiments for all comments in a CSV file.
+    
+    The CSV should have a 'comment' column.
+    Returns a DataFrame with original comment, cleaned comment, and predicted sentiment.
+    """
+
+    # Read the CSV
+    df = pd.read_csv(file_path)
+
+    # Check if 'comment' column exists
+    if "comment" not in df.columns:
+        print("Error: CSV must have a 'comment' column!")
+        return None
+
+    # Preprocess all comments
+    df["cleaned_comment"] = df["comment"].apply(preprocess_text)
+
+    # Convert all cleaned comments to numerical features
+    text_features = vectorizer.transform(df["cleaned_comment"])
+
+    # Predict sentiments for all comments
+    df["sentiment"] = model.predict(text_features)
+
+    # Keep only the useful columns
+    result_df = df[["comment", "cleaned_comment", "sentiment"]]
+
+    return result_df
+
+
+# -----------------------------------------------
+# This part runs only when you run this file directly
+# -----------------------------------------------
+if __name__ == "__main__":
+
+    # Load the trained model
+    model, vectorizer = load_model()
+
+    if model is not None:
+        # Test with a single comment
+        test_comment = "I really enjoyed the movie, it was fantastic!"
+        result = predict_sentiment(test_comment, model, vectorizer)
+        print(f"\nComment: {test_comment}")
+        print(f"Predicted Sentiment: {result}")
+
+        # Test with another comment
+        test_comment2 = "Terrible experience, worst product ever"
+        result2 = predict_sentiment(test_comment2, model, vectorizer)
+        print(f"\nComment: {test_comment2}")
+        print(f"Predicted Sentiment: {result2}")
