@@ -1,4 +1,4 @@
-# 📊 Social Media Analytics
+# 📊 Social Media Sentiment Analysis
 
 A Python-based desktop application that analyzes social media data using Machine Learning, Statistical Analysis, and Data Visualization. The application processes social media posts, predicts sentiment, generates statistical insights, and presents the results through an interactive graphical interface.
 
@@ -7,24 +7,25 @@ A Python-based desktop application that analyzes social media data using Machine
 ## 🚀 Features
 
 - Upload CSV datasets
-- Text preprocessing
-- Sentiment Analysis using Machine Learning
-- Statistical Analysis
-- Interactive Charts & Graphs
+- Text preprocessing (lowercase, remove URLs, punctuation, stopwords)
+- Sentiment Analysis using Multinomial Naive Bayes (ML)
+- TF-IDF Feature Extraction
+- Statistical Analysis (counts, percentages)
+- Interactive Charts & Graphs (Pie, Bar, Histogram)
 - User-friendly GUI using Tkinter
-- Export analysis results (Future Enhancement)
 
 ---
 
 ## 🛠️ Technologies Used
 
 - Python
-- Tkinter
-- Pandas
-- NumPy
-- Scikit-learn
-- Matplotlib
-- NLTK
+- Tkinter (GUI)
+- Pandas (Data handling)
+- NumPy (Numerical operations)
+- Scikit-learn (TF-IDF, Naive Bayes, train-test split)
+- Matplotlib (Charts)
+- NLTK (Stopwords removal)
+- Joblib (Model saving/loading)
 
 ---
 
@@ -34,22 +35,25 @@ A Python-based desktop application that analyzes social media data using Machine
 social-media-analytics/
 │
 ├── data/
-│   ├── raw/
-│   ├── processed/
-│   └── sample_dataset.csv
+│   ├── comments.csv              ← Training dataset (60 labeled comments)
+│   └── test_100_comments.csv     ← Test dataset (105 unlabeled comments)
 │
 ├── models/
+│   ├── model.pkl                 ← Trained Naive Bayes model
+│   └── vectorizer.pkl            ← Fitted TF-IDF vectorizer
 │
 ├── src/
-│   ├── preprocessing.py
-│   ├── train_model.py
-│   ├── predict.py
-│   ├── statistics.py
-│   ├── visualization.py
-│   └── gui.py
+│   ├── preprocessing.py          ← Text cleaning functions
+│   ├── train_model.py            ← TF-IDF + Naive Bayes training pipeline
+│   ├── predict.py                ← Load model and predict sentiments
+│   ├── statistics.py             ← Statistical analysis (pending)
+│   ├── visualization.py          ← Charts and graphs (pending)
+│   └── gui.py                    ← Tkinter GUI
 │
 ├── docs/
-├── assets/
+│   ├── Change_Report.docx        ← Report of all changes made
+│   └── Pending_Work_Team_Guide.docx ← Guide for remaining work
+│
 ├── requirements.txt
 ├── README.md
 └── .gitignore
@@ -62,7 +66,7 @@ social-media-analytics/
 Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/social-media-analytics.git
+git clone https://github.com/RishabhDev676/social-media-analytics.git
 ```
 
 Move into the project folder
@@ -77,10 +81,29 @@ Install dependencies
 pip install -r requirements.txt
 ```
 
-Run the application
+---
+
+## ▶️ How to Run
+
+**Step 1:** Train the model (run once)
 
 ```bash
-python src/gui.py
+cd src
+python train_model.py
+```
+
+This creates `models/model.pkl` and `models/vectorizer.pkl`.
+
+**Step 2:** Test predictions
+
+```bash
+python predict.py
+```
+
+**Step 3:** Launch the GUI
+
+```bash
+python gui.py
 ```
 
 ---
@@ -88,35 +111,44 @@ python src/gui.py
 ## 📈 Workflow
 
 ```
-Upload CSV
+CSV File (data/comments.csv)
       ↓
-Text Preprocessing
+Pandas DataFrame
       ↓
-Feature Extraction (TF-IDF)
+Text Preprocessing (preprocessing.py)
       ↓
-Machine Learning Model
+Cleaned Comments
       ↓
-Sentiment Prediction
+TF-IDF Vectorization (train_model.py)
       ↓
-Statistical Analysis
+Numerical Feature Matrix
       ↓
-Charts & Visualization
+Train/Test Split (80/20)
+      ↓
+Multinomial Naive Bayes Training
+      ↓
+Saved model.pkl + vectorizer.pkl
+      ↓
+User Input / CSV → predict.py → Sentiment Result
+      ↓
+Statistical Analysis (statistics.py)
+      ↓
+Charts & Visualization (visualization.py)
+      ↓
+Results Displayed in GUI (gui.py)
 ```
 
 ---
 
 ## 🤖 Machine Learning
 
-The project uses Machine Learning to classify social media posts into different sentiment categories.
+The project uses **Multinomial Naive Bayes** to classify social media posts into:
 
-Current algorithm:
+- **Positive**
+- **Negative**
+- **Neutral**
 
-- Naive Bayes (Planned)
-
-Future comparisons:
-
-- Logistic Regression
-- Support Vector Machine (SVM)
+Feature extraction is done using **TF-IDF (Term Frequency - Inverse Document Frequency)**.
 
 ---
 
@@ -124,22 +156,162 @@ Future comparisons:
 
 The application calculates:
 
-- Positive Sentiment %
-- Negative Sentiment %
-- Neutral Sentiment %
-- Mean
-- Median
-- Mode
-- Standard Deviation
+- Total comments
+- Positive / Negative / Neutral count
+- Positive / Negative / Neutral percentage
 
 ---
 
 ## 📉 Visualizations
 
-- Bar Chart
-- Pie Chart
-- Histogram
-- Line Chart (Future)
+- Pie Chart (sentiment distribution)
+- Bar Chart (sentiment counts)
+- Histogram (comment length distribution)
+
+---
+
+## ✅ Module Status
+
+| Module | Owner | Status |
+|--------|-------|--------|
+| `data/comments.csv` | Swarni | ✅ Done |
+| `preprocessing.py` | Swarni | ✅ Done |
+| `train_model.py` | Rishabh | ✅ Done |
+| `predict.py` | Prathamesh | ✅ Done |
+| `gui.py` (basic) | Daksha | ✅ Done |
+| `statistics.py` | Manvi | ⏳ Pending |
+| `visualization.py` | Sai | ⏳ Pending |
+| `gui.py` (full integration) | Daksha + Prathamesh | ⏳ Pending |
+
+---
+
+## 🚀 Getting Started for Team Members
+
+### Step 1: Clone the repo (first time only)
+
+```bash
+git clone https://github.com/RishabhDev676/social-media-analytics.git
+cd social-media-analytics
+```
+
+### Step 2: Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 3: Train the model to generate model files
+
+```bash
+cd src
+python train_model.py
+```
+
+You should see all 7 steps run and `model.pkl` + `vectorizer.pkl` created in the `models/` folder.
+
+### Step 4: Verify everything works
+
+```bash
+python predict.py
+```
+
+You should see:
+```
+Comment: I really enjoyed the movie, it was fantastic!
+Predicted Sentiment: Positive
+
+Comment: Terrible experience, worst product ever
+Predicted Sentiment: Negative
+```
+
+### Step 5: Work on your assigned module
+
+Now start coding your file. See the sections below for your specific instructions.
+
+---
+
+## 👩‍💻 Manvi — statistics.py
+
+**What to do:** Create a function `compute_statistics(df)` that takes a DataFrame with a `sentiment` column and returns a dictionary with counts and percentages.
+
+**How to test:**
+```bash
+cd src
+python statistics.py
+```
+
+**Detailed guide:** Read `docs/Pending_Work_Team_Guide.docx` — Section 2
+
+---
+
+## 👨‍💻 Sai — visualization.py
+
+**What to do:** Create 3 functions using Matplotlib:
+- `create_pie_chart(stats)` — Pie chart of sentiment percentages
+- `create_bar_chart(stats)` — Bar chart of sentiment counts
+- `create_histogram(df)` — Histogram of comment lengths
+
+**How to test:**
+```bash
+cd src
+python visualization.py
+```
+
+**Detailed guide:** Read `docs/Pending_Work_Team_Guide.docx` — Section 3
+
+---
+
+## 👩‍💻 Daksha + Prathamesh — gui.py (Full Integration)
+
+**What to do:**
+- **Daksha:** Build the GUI layout — add text entry box, results table, stats panel, chart buttons
+- **Prathamesh:** Wire up the buttons — connect predict.py, statistics.py, and visualization.py to the GUI
+
+**How to test:**
+```bash
+cd src
+python gui.py
+```
+
+**Detailed guide:** Read `docs/Pending_Work_Team_Guide.docx` — Section 4
+
+---
+
+## 📝 Git Commands for Team
+
+**Before starting work (always pull latest code first):**
+```bash
+git pull origin main
+```
+
+**After finishing your file:**
+```bash
+git add src/your_file.py
+git commit -m "feat: implement your_module_name"
+git push origin main
+```
+
+**If you get a merge conflict:**
+```bash
+git pull origin main
+# Fix the conflict in the file manually
+git add .
+git commit -m "fix: resolve merge conflict"
+git push origin main
+```
+
+---
+
+## 👥 Team Members
+
+| Member | Role |
+|--------|------|
+| Rishabh | TF-IDF, Naive Bayes training, model saving |
+| Swarni | Dataset collection and preprocessing |
+| Daksha | GUI design and layout |
+| Prathamesh | Prediction and GUI integration |
+| Manvi | Statistical analysis |
+| Sai | Charts and dashboard |
 
 ---
 
@@ -151,17 +323,6 @@ The application calculates:
 - Word Cloud generation
 - Multiple language support
 - Export reports as PDF
-
----
-
-## 👥 Team Members
-
-- Rishabh
-- Swarni
-- Daksha
-- Prathamesh
-- Manvi
-- Sai
 
 ---
 
