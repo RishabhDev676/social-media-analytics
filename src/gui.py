@@ -5,83 +5,448 @@ import os
 import pandas as pd
 
 
+# ================= GLOBAL VARIABLES =================
+
+selected_file = ""
+
+
+# ================= FUNCTIONS =================
+
 def upload_csv():
-    """Opens a file dialog for the user to select a CSV file and displays it."""
+    global selected_file #global variable to track csvpath 
 
-    # Define the allowed file types (restricting to CSV)
-    file_types = [("CSV Files", "*.csv"), ("All Files", "*.*")]
-
-    # Open the file dialog and capture the selected file path
     file_path = filedialog.askopenfilename(
-        title="Select a CSV File",
-        filetypes=file_types
+        filetypes=[
+            ("CSV Files", "*.csv"),
+            ("All Files", "*.*")
+        ]
     )
 
-    # Check if the user actually selected a file or cancelled
     if file_path:
-        # Extract just the filename for display
-        filename = os.path.basename(file_path)
-        status_label.config(text=f"Uploaded: {filename}", fg="green")
+        selected_file = file_path
 
-        # Print the full path to the console
-        print(f"Full file path: {file_path}")
+        filename = os.path.basename(selected_file)
 
-        # Read the CSV file using the selected path
-        try:
-            df = pd.read_csv(file_path)
-            print(f"\nDataset loaded successfully!")
-            print(f"Total rows: {len(df)}")
-            print(f"Columns: {list(df.columns)}")
-            print(df.head())
-        except Exception as e:
-            status_label.config(text=f"Error: {e}", fg="red")
-            print(f"Error reading file: {e}")
+        status_label.config(
+            text=f"Uploaded: {filename}",
+            fg="blue"
+        )
+
+        # Read selected CSV
+        df = pd.read_csv(selected_file)
+
+        # Display comments in console
+        filtered_df = df[["comments"]]
+
+        print(filtered_df)
+
     else:
-        status_label.config(text="Upload cancelled.", fg="red")
+        status_label.config(
+            text="No file selected",
+            fg="gray"
+        )
 
 
-# Set up the main application window
+def add_comment():
+
+    comment = comment_box.get("1.0", "end-1c").strip()
+
+    # Check comment
+    if comment == "":
+        status_label.config(
+            text="Please enter a comment",
+            fg="red"
+        )
+        return
+
+    # Read CSV
+    df = pd.read_csv(selected_file)
+
+    # Generate new ID
+    new_id = len(df) + 1
+
+    # Create new row
+    new_row = pd.DataFrame({
+        "id": [new_id],
+        "comments": [comment]
+    })
+
+    # Add new row
+    df = pd.concat([df, new_row], ignore_index=True)
+
+    # Save updated CSV
+    df.to_csv(selected_file, index=False)
+
+    status_label.config(
+        text="Comment added successfully!",
+        fg="green"
+    )
+
+    # Clear inputs
+    comment_box.delete("1.0", "end")
+   
+
+
+# ================= PAGE NAVIGATION =================
+
+def show_results():
+
+    # Hide home page
+    home_frame.pack_forget()
+
+    # Show result page
+    result_frame.pack(fill="both", expand=True)
+
+
+def show_graph():
+
+    # Hide result page
+    result_frame.pack_forget()
+
+    # Show graph page
+    graph_frame.pack(fill="both", expand=True)
+
+
+def back_to_results():
+
+    # Hide graph page
+    graph_frame.pack_forget()
+
+    # Show result page
+    result_frame.pack(fill="both", expand=True)
+
+
+def back_to_home():
+
+    # Hide result page
+    result_frame.pack_forget()
+
+    # Show home page
+    home_frame.pack(fill="both", expand=True)
+
+
+# ================= MAIN WINDOW =================
+
 root = tk.Tk()
-root.title("Social Media Sentiment Analyzer")
-root.geometry("500x250")
 
-# Add a descriptive label
+root.title("Social Media Sentiment Analysis")
+
+root.geometry("1200x700")
+
+root.configure(bg="#EFF7FF")
+
+
+# ==================================================
+#                    HOME PAGE
+# ==================================================
+
+home_frame = tk.Frame(
+    root,
+    bg="#EFF7FF"
+)
+
+home_frame.pack(
+    fill="both",
+    expand=True
+)
+
+
+# ---------- HEADER ----------
+
 instruction_label = tk.Label(
-    root,
-    text="Social Media Sentiment Analysis",
-    font=("Arial", 14, "bold")
+    home_frame,
+    text="SOCIAL MEDIA SENTIMENT ANALYSIS",
+    font=("Book Antiqua", 24, "bold"),
+    fg="#558CBD",
+    bg="#EFF7FF"
 )
-instruction_label.pack(pady=10)
 
-# Add a sub-label
-sub_label = tk.Label(
-    root,
-    text="Upload your CSV file to analyze sentiments",
-    font=("Arial", 10)
+instruction_label.pack(pady=(40, 5))
+
+
+subtitle_label = tk.Label(
+    home_frame,
+    text="Analyze public opinion using Machine Learning",
+    font=("Arial", 11, "italic"),
+    fg="#666666",
+    bg="#EFF7FF"
 )
-sub_label.pack(pady=5)
 
-# Add the Upload Button
+subtitle_label.pack(pady=(0, 30))
+
+
+# ---------- MAIN INPUT CARD ----------
+
+input_frame = tk.Frame(
+    home_frame,
+    bg="white",
+    padx=40,
+    pady=25
+)
+
+input_frame.pack()
+
+
+# Upload Button
+
 upload_button = tk.Button(
-    root,
-    text="Choose CSV File",
+    input_frame,
+    text="Upload CSV File",
     command=upload_csv,
-    bg="#4CAF50",
+    bg="#3B7C96",
     fg="white",
+    font=("Arial", 10, "bold"),
+    padx=15,
+    pady=7
+)
+
+upload_button.pack(pady=5)
+
+
+# Status Label
+
+status_label = tk.Label(
+    input_frame,
+    text="No file selected",
+    font=("Arial", 10, "italic"),
+    fg="gray",
+    bg="white"
+)
+
+status_label.pack(pady=8)
+
+
+
+# Comment Label
+
+comment_label = tk.Label(
+    input_frame,
+    text="Enter Comment:",
+    bg="white",
+    font=("Arial", 10, "bold")
+)
+
+comment_label.pack(pady=(15, 5))
+
+
+# Comment Box
+
+comment_box = tk.Text(
+    input_frame,
+    height=5,
+    width=55
+)
+
+comment_box.pack()
+
+
+# Add Comment Button
+
+add_comment_button = tk.Button(
+    input_frame,
+    text="Add Comment",
+    command=add_comment,
+    fg="#3B7C96",
     font=("Arial", 10, "bold"),
     padx=10,
     pady=5
 )
-upload_button.pack(pady=15)
 
-# Add a status label to show the upload result
-status_label = tk.Label(
-    root,
-    text="No file selected",
-    font=("Arial", 10, "italic"),
-    fg="gray"
+add_comment_button.pack(pady=12)
+
+
+# Analyze Button
+
+analyze_button = tk.Button(
+    home_frame,
+    text="ANALYZE",
+    command=show_results,
+    bg="#3B7C96",
+    fg="white",
+    font=("Arial", 11, "bold"),
+    padx=25,
+    pady=8
 )
-status_label.pack(pady=10)
 
-# Start the Tkinter event loop
+analyze_button.pack(pady=25)
+
+
+# ==================================================
+#                    RESULT PAGE
+# ==================================================
+
+result_frame = tk.Frame(
+    root,
+    bg="#EFF7FF"
+)
+
+
+# Result Title
+
+result_title = tk.Label(
+    result_frame,
+    text="SENTIMENT ANALYSIS RESULTS",
+    font=("Book Antiqua", 24, "bold"),
+    bg="#EFF7FF",
+    fg="#558CBD"
+)
+
+result_title.pack(pady=(50, 10))
+
+
+result_subtitle = tk.Label(
+    result_frame,
+    text="Overall Sentiment Analysis",
+    font=("Book Antiqua", 14, "italic"),
+    bg="#EFF7FF",
+    fg="#558CBD"
+)
+
+result_subtitle.pack(pady=10)
+
+
+# Result Cards Frame
+
+cards_frame = tk.Frame(
+    result_frame,
+    bg="#EFF7FF"
+)
+
+cards_frame.pack(pady=40)
+
+
+# Positive Card
+
+positive_card = tk.Label(
+    cards_frame,
+    text="POSITIVE\n\n--",
+    font=("Arial", 14, "bold"),
+    bg="white",
+    width=15,
+    height=5
+)
+
+positive_card.pack(side="left", padx=15)
+
+
+# Negative Card
+
+negative_card = tk.Label(
+    cards_frame,
+    text="NEGATIVE\n\n--",
+    font=("Arial", 14, "bold"),
+    bg="white",
+    width=15,
+    height=5
+)
+
+negative_card.pack(side="left", padx=15)
+
+
+# Neutral Card
+
+neutral_card = tk.Label(
+    cards_frame,
+    text="NEUTRAL\n\n--",
+    font=("Arial", 14, "bold"),
+    bg="white",
+    width=15,
+    height=5
+)
+
+neutral_card.pack(side="left", padx=15)
+
+
+# Buttons Frame
+
+result_button_frame = tk.Frame(
+    result_frame,
+    bg="#EFF7FF"
+)
+
+result_button_frame.pack(pady=30)
+
+
+# View Graph Button
+
+view_graph_button = tk.Button(
+    result_button_frame,
+    text="View Graph",
+    command=show_graph,
+    fg="#3B7C96",
+    font=("Book Antiqua", 10, "italic"),
+    padx=15,
+    pady=7
+)
+
+view_graph_button.pack(side="left", padx=10)
+
+
+# Back Button
+
+back_home_button = tk.Button(
+    result_button_frame,
+    text="← Back",
+    command=back_to_home,
+    fg="#3B7C96",
+    font=("Book Antiqua", 10, "italic"),
+    padx=15,
+    pady=7
+)
+
+back_home_button.pack(side="left", padx=10)
+
+
+# ==================================================
+#                    GRAPH PAGE
+# ==================================================
+
+graph_frame = tk.Frame(
+    root,
+    bg="white"
+)
+
+
+# Graph Title
+
+graph_title = tk.Label(
+    graph_frame,
+    text="SENTIMENT ANALYSIS DASHBOARD",
+    font=("Arial", 22, "bold"),
+    bg="white",
+    fg="#558CBD"
+)
+
+graph_title.pack(pady=40)
+
+
+# Temporary message
+
+graph_message = tk.Label(
+    graph_frame,
+    text="Graphs will be displayed here",
+    font=("Arial", 16),
+    bg="white"
+)
+
+graph_message.pack(pady=50)
+
+
+# Back to Results Button
+
+back_result_button = tk.Button(
+    graph_frame,
+    text="← Back to Results",
+    command=back_to_results,
+    fg="#3B7C96",
+    font=("Arial", 10, "bold"),
+    padx=15,
+    pady=7
+)
+
+back_result_button.pack(pady=20)
+
+
+# ================= START APPLICATION =================
+
 root.mainloop()
