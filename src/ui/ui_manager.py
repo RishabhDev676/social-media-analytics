@@ -87,7 +87,7 @@ class SentimentApp:
         self.frames["Loading"] = frame
         
         ttk.Label(frame, text="Processing Data...", style="Title.TLabel").pack(pady=(200, 10))
-        ttk.Label(frame, text="Our ML model is currently analyzing sentiments and generating graphs.", style="Subtitle.TLabel").pack(pady=(0, 30))
+        ttk.Label(frame, text="Our ML model is currently analyzing sentiments and aggregating statistics.", style="Subtitle.TLabel").pack(pady=(0, 30))
         
         self.progress = ttk.Progressbar(frame, mode='indeterminate', length=400)
         self.progress.pack()

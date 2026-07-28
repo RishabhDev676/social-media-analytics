@@ -12,5 +12,5 @@ Please see [Report_Index.md](file:///c:/Users/risha/Desktop/SF%20Project/social-
 | **Day 2 (2026-07-26)** | Core Pipeline Engine | `preprocess.py`, `train.py`, `predict.py`, 100-comment test dataset | Completed |
 | **Day 3 (2026-07-27)** | GUI & Analytics | `statistics.py` integration, GUI layout & backend event wiring | Completed |
 | **Day 4 (2026-07-28)** | Model Upgrade & 11k Dataset | Logistic Regression + TF-IDF, 11k dataset, `Model_Explanation.docx` | Completed |
-| **Day 5 Today (2026-07-29)** | Modular Architecture & Modern UI | Tkinter dashboard, package layout, repo & git cleanup | Completed |
+| **Day 5 Today (2026-07-29)** | Modular Architecture & Dashboard UI | Tkinter dashboard, package layout, repo maintenance | Completed |
 | **Day 6 Tomorrow (2026-07-30+)** | Production Packaging | Excel/PDF export, single-comment live predictor, `.exe` build | Planned |
