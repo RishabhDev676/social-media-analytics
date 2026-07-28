@@ -37,8 +37,21 @@ def main():
     doc.add_paragraph("• statistics.py: Crunches the numbers to show overall sentiment.")
     doc.add_paragraph("• gui.py: Provides a visual app for the user to upload files.")
 
+    # Imports Explanation
+    add_heading(doc, '2. Understanding the Python Imports', level=1)
+    add_paragraph(doc, "Across our project, we import several libraries. Here is what each one does:")
+    doc.add_paragraph("• pandas: Used to load, manipulate, and analyze our data using DataFrames (like Excel tables in code).")
+    doc.add_paragraph("• os: A built-in library to handle file paths and directories, ensuring our code works on Mac, Windows, and Linux.")
+    doc.add_paragraph("• re: The Regular Expression library, used for searching and replacing specific text patterns (like removing URLs).")
+    doc.add_paragraph("• nltk (Natural Language Toolkit): We use this to download and remove 'stopwords' (common words like 'the' or 'is' that don't add meaning).")
+    doc.add_paragraph("• sklearn (Scikit-Learn): Our main Machine Learning library. We import 'TfidfVectorizer' to convert text to numbers, 'LogisticRegression' for the AI model, 'train_test_split' to divide our data, and metrics to check accuracy.")
+    doc.add_paragraph("• joblib: Used to save our trained model and vectorizer to disk so we can load them later without retraining.")
+    doc.add_paragraph("• tkinter: Python's standard GUI library. We use it to build the desktop window, buttons, and file dialogs.")
+    doc.add_paragraph("• numpy: Used for fast mathematical and numerical operations on arrays.")
+    doc.add_paragraph("• docx: The library used to generate this Word document programmatically!")
+
     # Preprocessing
-    add_heading(doc, '2. preprocessing.py (Cleaning the Data)', level=1)
+    add_heading(doc, '3. preprocessing.py (Cleaning the Data)', level=1)
     add_paragraph(doc, "People type messily on social media. Before the AI can read it, we have to clean the text.")
     add_code(doc, "text = re.sub(r\"http\S+|www\S+|https\S+\", \"\", text)\ntext = re.sub(r\"[^a-zA-Z\s]\", \"\", text)\nwords = [word for word in words if word not in stop_words]")
     doc.add_paragraph("• We use 're' (Regular Expressions) to search and destroy web links (URLs).")
@@ -47,7 +60,7 @@ def main():
 
     # Training
     # Training
-    add_heading(doc, '3. train_model.py (Teaching the AI)', level=1)
+    add_heading(doc, '4. train_model.py (Teaching the AI)', level=1)
     add_paragraph(doc, "After preprocessing, we move to training. Here is a brief theory of what happens next:", bold=True)
     add_paragraph(doc, "Theory: Machine learning models only understand numbers, not text. Therefore, we must convert our cleaned text into a numerical format. This step is called 'Feature Extraction'. We use TF-IDF (Term Frequency-Inverse Document Frequency), which gives higher importance to unique words that define a sentiment (like 'terrible' or 'amazing') and lowers the importance of common words.")
     add_paragraph(doc, "Once converted to numbers, we split our data: 80% to train the model, and 20% to test it. We use Logistic Regression, which is a statistical model that finds the relationship between the words (features) and the sentiment (labels). It calculates the probability that a comment belongs to a specific category.")
@@ -89,22 +102,23 @@ joblib.dump(vectorizer, 'vectorizer.pkl')
     add_code(doc, detailed_train_code.strip())
 
     # Prediction
-    add_heading(doc, '4. predict.py (Making New Guesses)', level=1)
+    add_heading(doc, '5. predict.py (Making New Guesses)', level=1)
     add_paragraph(doc, "Now that the AI is smart and saved to a file, this script loads it up to analyze brand-new comments.")
     add_code(doc, "model = joblib.load(model_path)\nvectorizer = joblib.load(vectorizer_path)\n\ntext_features = vectorizer.transform([cleaned_text])\nprediction = model.predict(text_features)")
     doc.add_paragraph("• joblib.load: Wakes up our saved model from the hard drive.")
     doc.add_paragraph("• vectorizer.transform: Turns the new user comment into math numbers exactly the same way we did during training.")
     doc.add_paragraph("• model.predict: The AI looks at the numbers and spits out a final guess: Positive, Negative, or Neutral.")
+    doc.add_paragraph("• CSV Export: Finally, it saves these exact predictions into 'predicted_sentiments.csv' so our stats and graphs modules can use them!")
 
     # Statistics
-    add_heading(doc, '5. statistics.py (Crunching the Numbers)', level=1)
-    add_paragraph(doc, "Once we have predictions for hundreds of comments, we want to see the big picture.")
+    add_heading(doc, '6. statistics.py (Crunching the Numbers)', level=1)
+    add_paragraph(doc, "Once we have our 'predicted_sentiments.csv', we want to see the big picture.")
     add_code(doc, "counts = df[\"sentiment\"].value_counts()\npositive_pct = (positive_count / total) * 100")
-    doc.add_paragraph("• We use the 'Pandas' library to count how many comments fell into each bucket.")
+    doc.add_paragraph("• We use the 'Pandas' library to read the predicted CSV and count how many comments fell into each bucket.")
     doc.add_paragraph("• We calculate percentages to show the user exactly what portion of their audience is happy versus unhappy.")
 
     # GUI
-    add_heading(doc, '6. gui.py (The Visual App)', level=1)
+    add_heading(doc, '7. gui.py (The Visual App)', level=1)
     add_paragraph(doc, "Users don't want to type code; they want buttons to click. We built a desktop app using 'Tkinter'.")
     add_code(doc, "import tkinter as tk\nfrom tkinter import filedialog\n\nfile_path = filedialog.askopenfilename()")
     doc.add_paragraph("• Tkinter (tk): This is Python's built-in tool for drawing windows, buttons, and text boxes.")

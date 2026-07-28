@@ -105,3 +105,20 @@ if __name__ == "__main__":
         result2 = predict_sentiment(test_comment2, model, vectorizer)
         print(f"\nComment: {test_comment2}")
         print(f"Predicted Sentiment: {result2}")
+        
+        # Predict sentiments for the test dataset and save to a new CSV
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        test_csv_path = os.path.join(base_dir, "..", "data", "test_100_comments.csv")
+        output_csv_path = os.path.join(base_dir, "..", "data", "predicted_sentiments.csv")
+        
+        if os.path.exists(test_csv_path):
+            print(f"\nPredicting sentiments for {test_csv_path}...")
+            results_df = predict_from_csv(test_csv_path, model, vectorizer)
+            if results_df is not None:
+                results_df.to_csv(output_csv_path, index=False)
+                print(f"Saved predicted sentiments to {output_csv_path}!")
+                print("This file can now be used for statistical analysis and visualization.")
+        else:
+            print(f"\nCould not find {test_csv_path} to generate predictions.")
+
+        

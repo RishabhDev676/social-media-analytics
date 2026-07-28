@@ -36,7 +36,8 @@ social-media-analytics/
 │
 ├── data/
 │   ├── comments.csv              ← Training dataset (60 labeled comments)
-│   └── test_100_comments.csv     ← Test dataset (105 unlabeled comments)
+│   ├── test_100_comments.csv     ← Test dataset (105 unlabeled comments)
+│   └── predicted_sentiments.csv  ← Output dataset with actual sentiments for stats/charts
 │
 ├── models/
 │   ├── model.pkl                 ← Trained Logistic Regression model
@@ -132,6 +133,8 @@ Logistic Regression Training
 Saved model.pkl + vectorizer.pkl
       ↓
 User Input / CSV → predict.py → Sentiment Result
+      ↓
+Saved predicted_sentiments.csv
       ↓
 Statistical Analysis (statistics.py)
       ↓
