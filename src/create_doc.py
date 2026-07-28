@@ -46,12 +46,47 @@ def main():
     doc.add_paragraph("• We use the 'NLTK' library to remove \"stop words.\" Stop words are common words like \"the\", \"and\", or \"is\" that don't tell us anything about sentiment.")
 
     # Training
+    # Training
     add_heading(doc, '3. train_model.py (Teaching the AI)', level=1)
-    add_paragraph(doc, "This script loads our huge 11,000-comment dataset and trains a Machine Learning model.")
-    add_code(doc, "vectorizer = TfidfVectorizer(ngram_range=(1, 2), stop_words='english')\nX = vectorizer.fit_transform(df[\"cleaned_comment\"])\n\nmodel = LogisticRegression(max_iter=1000)\nmodel.fit(X_train, y_train)")
-    doc.add_paragraph("• TfidfVectorizer: The AI doesn't understand words, only math. This tool converts our sentences into numerical scores. 'ngram_range=(1, 2)' means it looks at single words AND pairs of words (like \"not good\").")
-    doc.add_paragraph("• Logistic Regression: This is our AI brain. We show it 80% of our data (the training set) and say, \"Find the mathematical pattern that makes a comment Positive or Negative.\"")
-    doc.add_paragraph("• Once trained, our model achieved a ~94.8% accuracy on the test exam! We then use 'joblib.dump' to save this trained brain into '.pkl' files so we don't have to retrain it every time.")
+    add_paragraph(doc, "After preprocessing, we move to training. Here is a brief theory of what happens next:", bold=True)
+    add_paragraph(doc, "Theory: Machine learning models only understand numbers, not text. Therefore, we must convert our cleaned text into a numerical format. This step is called 'Feature Extraction'. We use TF-IDF (Term Frequency-Inverse Document Frequency), which gives higher importance to unique words that define a sentiment (like 'terrible' or 'amazing') and lowers the importance of common words.")
+    add_paragraph(doc, "Once converted to numbers, we split our data: 80% to train the model, and 20% to test it. We use Logistic Regression, which is a statistical model that finds the relationship between the words (features) and the sentiment (labels). It calculates the probability that a comment belongs to a specific category.")
+    
+    add_paragraph(doc, "Here is the detailed code that accomplishes this:", bold=True)
+    
+    detailed_train_code = """
+# 1. Create the TF-IDF Vectorizer
+# ngram_range=(1, 2) means we look at single words and 2-word phrases
+# max_features=5000 limits the vocabulary to the top 5000 words
+vectorizer = TfidfVectorizer(ngram_range=(1, 2), stop_words='english', max_features=5000)
+
+# 2. Convert text to numbers
+# fit_transform learns the vocabulary and transforms the text into a matrix (X)
+X = vectorizer.fit_transform(df["cleaned_comment"])
+
+# 3. Define the labels (what we want to predict)
+y = df["sentiment"]
+
+# 4. Split data into training (80%) and testing (20%)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# 5. Create and Train the Logistic Regression Model
+# max_iter=1000 ensures it has enough time to find the best mathematical pattern
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+
+# 6. Evaluate and Save
+# We predict on the test set to see how well it learned
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+
+# Finally, save the trained model and vectorizer for future use
+joblib.dump(model, 'model.pkl')
+joblib.dump(vectorizer, 'vectorizer.pkl')
+"""
+    add_code(doc, detailed_train_code.strip())
 
     # Prediction
     add_heading(doc, '4. predict.py (Making New Guesses)', level=1)

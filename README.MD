@@ -8,7 +8,7 @@ A Python-based desktop application that analyzes social media data using Machine
 
 - Upload CSV datasets
 - Text preprocessing (lowercase, remove URLs, punctuation, stopwords)
-- Sentiment Analysis using Multinomial Naive Bayes (ML)
+- Sentiment Analysis using Logistic Regression (ML)
 - TF-IDF Feature Extraction
 - Statistical Analysis (counts, percentages)
 - Interactive Charts & Graphs (Pie, Bar, Histogram)
@@ -22,7 +22,7 @@ A Python-based desktop application that analyzes social media data using Machine
 - Tkinter (GUI)
 - Pandas (Data handling)
 - NumPy (Numerical operations)
-- Scikit-learn (TF-IDF, Naive Bayes, train-test split)
+- Scikit-learn (TF-IDF, Logistic Regression, train-test split)
 - Matplotlib (Charts)
 - NLTK (Stopwords removal)
 - Joblib (Model saving/loading)
@@ -39,19 +39,21 @@ social-media-analytics/
 │   └── test_100_comments.csv     ← Test dataset (105 unlabeled comments)
 │
 ├── models/
-│   ├── model.pkl                 ← Trained Naive Bayes model
+│   ├── model.pkl                 ← Trained Logistic Regression model
 │   └── vectorizer.pkl            ← Fitted TF-IDF vectorizer
 │
 ├── src/
 │   ├── preprocessing.py          ← Text cleaning functions
-│   ├── train_model.py            ← TF-IDF + Naive Bayes training pipeline
+│   ├── train_model.py            ← TF-IDF + Logistic Regression training pipeline
 │   ├── predict.py                ← Load model and predict sentiments
 │   ├── statistics.py             ← Statistical analysis (pending)
 │   ├── visualization.py          ← Charts and graphs (pending)
-│   └── gui.py                    ← Tkinter GUI
+│   ├── gui.py                    ← Tkinter GUI
+│   └── create_doc.py             ← Script to generate documentation
 │
 ├── docs/
 │   ├── Change_Report.docx        ← Report of all changes made
+│   ├── Model_Explanation.docx    ← Explains how code and ML models work
 │   └── Pending_Work_Team_Guide.docx ← Guide for remaining work
 │
 ├── requirements.txt
@@ -125,7 +127,7 @@ Numerical Feature Matrix
       ↓
 Train/Test Split (80/20)
       ↓
-Multinomial Naive Bayes Training
+Logistic Regression Training
       ↓
 Saved model.pkl + vectorizer.pkl
       ↓
@@ -142,7 +144,7 @@ Results Displayed in GUI (gui.py)
 
 ## 🤖 Machine Learning
 
-The project uses **Multinomial Naive Bayes** to classify social media posts into:
+The project uses **Logistic Regression** to classify social media posts into:
 
 - **Positive**
 - **Negative**
@@ -306,7 +308,7 @@ git push origin main
 
 | Member | Role |
 |--------|------|
-| Rishabh | TF-IDF, Naive Bayes training, model saving |
+| Rishabh | TF-IDF, Logistic Regression training, model saving |
 | Swarni | Dataset collection and preprocessing |
 | Daksha | GUI design and layout |
 | Prathamesh | Prediction and GUI integration |
