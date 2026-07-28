@@ -36,7 +36,7 @@ def upload_csv():
         df = pd.read_csv(selected_file)
 
         # Display comments in console
-        filtered_df = df[["comments"]]
+        filtered_df = df[["comment"]]
 
         print(filtered_df)
 
@@ -48,6 +48,13 @@ def upload_csv():
 
 
 def add_comment():
+
+    if selected_file == "":
+        status_label.config(
+            text="Please upload a CSV first",
+            fg="red"
+        )
+        return
 
     comment = comment_box.get("1.0", "end-1c").strip()
 
@@ -67,8 +74,9 @@ def add_comment():
 
     # Create new row
     new_row = pd.DataFrame({
-        "id": [new_id],
-        "comments": [comment]
+        "ID": [new_id],
+        "comment": [comment],
+        "sentiment": [""]   # Leave blank since it hasn't been predicted yet
     })
 
     # Add new row
