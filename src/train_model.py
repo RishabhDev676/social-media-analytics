@@ -3,7 +3,7 @@ import os
 import joblib
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
 from preprocessing import preprocess_dataframe
 
@@ -57,7 +57,7 @@ print("=" * 50)
 
 # Create the TF-IDF Vectorizer
 # This converts text into numerical features
-vectorizer = TfidfVectorizer()
+vectorizer = TfidfVectorizer(ngram_range=(1, 2), stop_words='english', max_features=5000)
 
 # X = the numerical feature matrix (input for the model)
 # We use the cleaned comments, not the raw ones
@@ -90,14 +90,14 @@ print(f"Testing data:  {X_test.shape[0]} comments")
 
 
 # -----------------------------------------------
-# STEP 5: TRAIN THE MODEL (Multinomial Naive Bayes)
+# STEP 5: TRAIN THE MODEL (Logistic Regression)
 # -----------------------------------------------
 print("\n" + "=" * 50)
-print("STEP 5: Training Multinomial Naive Bayes Model")
+print("STEP 5: Training Logistic Regression Model")
 print("=" * 50)
 
-# Create the Naive Bayes model
-model = MultinomialNB()
+# Create the Logistic Regression model
+model = LogisticRegression(max_iter=1000)
 
 # Train (fit) the model using training data
 model.fit(X_train, y_train)
