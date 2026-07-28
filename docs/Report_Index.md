@@ -27,17 +27,18 @@ Below is the directory catalog of all project documentation files available in t
 
 | Section | Phase / Focus Area | Date / Timeline | Primary Output / Deliverables | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| [1. Executive Summary](#1-executive-summary) | Overview & Metrics | All Days | Core Classification Engine & Dashboard | Baseline Complete |
-| [2. System Package Architecture](#2-system-package-architecture) | Package Architecture | All Days | Decoupled package structure across `src/` | Completed |
-| [3. Day 1 Report](#3-day-1-2026-07-22-project-initialization) | Setup & Requirements | 2026-07-22 | Git init, `requirements.txt`, `README.md` | Completed |
-| [4. Day 2 Report](#4-day-2-2026-07-26-core-ml-pipeline-engine) | NLP Engine & Processing | 2026-07-26 | `preprocess.py`, `train.py`, `predict.py` | Completed |
-| [5. Day 3 Report](#5-day-3-2026-07-27-gui-prototype--analytics) | UI Layout & Statistics | 2026-07-27 | Initial GUI frame navigation & `statistics.py` | Completed |
-| [6. Day 4 Report](#6-day-4-2026-07-28-model-upgrade--11000-comment-dataset) | Model Upgrade & 11k Dataset | 2026-07-28 | Logistic Regression + TF-IDF, 11k dataset | Completed |
-| [7. Day 5 Report (Today)](#7-day-5-today-2026-07-29-modular-architecture--modern-dashboard-ui) | Architecture & Dashboard UI | 2026-07-29 | `SentimentApp` Dashboard & package refactoring | Completed |
-| [8. Day 6 Report (Tomorrow)](#8-day-6-tomorrow-2026-07-30-production-roadmap) | Distribution & Packaging | 2026-07-30+ | Excel export, live predictor, `.exe` build | Planned |
+| [1. Executive Summary](#executive-summary) | Overview & Metrics | All Days | Core Classification Engine & Dashboard | Baseline Complete |
+| [2. System Package Architecture](#system-package-architecture) | Package Architecture | All Days | Decoupled package structure across `src/` | Completed |
+| [3. Day 1 Report](#day-1-report) | Setup & Requirements | 2026-07-22 | Git init, `requirements.txt`, `README.md` | Completed |
+| [4. Day 2 Report](#day-2-report) | NLP Engine & Processing | 2026-07-26 | `preprocess.py`, `train.py`, `predict.py` | Completed |
+| [5. Day 3 Report](#day-3-report) | UI Layout & Statistics | 2026-07-27 | Initial GUI frame navigation & `statistics.py` | Completed |
+| [6. Day 4 Report](#day-4-report) | Model Upgrade & 11k Dataset | 2026-07-28 | Logistic Regression + TF-IDF, 11k dataset | Completed |
+| [7. Day 5 Report (Today)](#day-5-report) | Architecture & Dashboard UI | 2026-07-29 | `SentimentApp` Dashboard & package refactoring | Completed |
+| [8. Day 6 Report (Tomorrow)](#day-6-report) | Distribution & Packaging | 2026-07-30+ | Excel export, live predictor, `.exe` build | Planned |
 
 ---
 
+<a id="executive-summary"></a>
 ## 1. Executive Summary
 
 The **Social Media Sentiment Analysis** project is an end-to-end machine learning solution designed to categorize social media feedback into **Positive**, **Negative**, or **Neutral** sentiment. The application combines natural language processing (NLP), statistical feature extraction (TF-IDF), supervised classification (Logistic Regression), and a high-performance desktop user interface (Tkinter).
@@ -45,10 +46,11 @@ The **Social Media Sentiment Analysis** project is an end-to-end machine learnin
 Key metrics of current release:
 - **Trained Dataset Size:** 11,000 social media comments with realistic noise (~95% model accuracy).
 - **Architecture:** Clean modular Python package layout (`src/core`, `src/analytics`, `src/ui`, `src/utils`).
-- **Dashboard Interface:** Desktop application with real-time sentiment stat cards (**POSITIVE: 4414**, **NEGATIVE: 4385**, **NEUTRAL: 2201**), interactive data tables, and background multi-threading.
+- **Dashboard Interface:** Desktop application with real-time sentiment stat cards (**POSITIVE: 4414**, **NEGATIVE: 4385**, **NEUTRAL: 2201**), data tables, and background multi-threading.
 
 ---
 
+<a id="system-package-architecture"></a>
 ## 2. System Package Architecture
 
 The project architecture is structured into decoupled, modular packages:
@@ -62,6 +64,7 @@ The project architecture is structured into decoupled, modular packages:
 
 ---
 
+<a id="day-1-report"></a>
 ## 3. Day 1 (2026-07-22): Project Initialization
 
 ### 🎯 Objectives
@@ -74,6 +77,7 @@ Establish repository foundation, define project scope, and set up dependency man
 
 ---
 
+<a id="day-2-report"></a>
 ## 4. Day 2 (2026-07-26): Core ML Pipeline Engine
 
 ### 🎯 Objectives
@@ -86,6 +90,7 @@ Implement core NLP data processing modules, training pipelines, and baseline tes
 
 ---
 
+<a id="day-3-report"></a>
 ## 5. Day 3 (2026-07-27): GUI Prototype & Analytics
 
 ### 🎯 Objectives
@@ -97,6 +102,7 @@ Build initial desktop graphical user interface and integrate statistical calcula
 
 ---
 
+<a id="day-4-report"></a>
 ## 6. Day 4 (2026-07-28): Model Upgrade & 11,000 Comment Dataset
 
 ### 🎯 Objectives
@@ -110,6 +116,7 @@ Upgrade machine learning model architecture, scale dataset to 11,000 rows, and a
 
 ---
 
+<a id="day-5-report"></a>
 ## 7. Day 5 (Today - 2026-07-29): Modular Architecture & Modern Dashboard UI
 
 ### 🎯 Objectives
@@ -123,6 +130,7 @@ Refactor codebase into clean production packages, build modern desktop dashboard
 
 ---
 
+<a id="day-6-report"></a>
 ## 8. Day 6 (Tomorrow - 2026-07-30 & Future Roadmap)
 
 ### 🎯 Objectives
