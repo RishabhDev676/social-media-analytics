@@ -45,26 +45,26 @@ def main():
     doc = Document()
 
     # Document Header Title
-    add_heading(doc, 'Social Media Sentiment Analysis: Master Progress Report & Team Guide Index', level=0)
+    add_heading(doc, 'Social Media Sentiment Analysis: Master Progress Report & System Index', level=0)
     
     p_meta = doc.add_paragraph()
     p_meta.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    run_m = p_meta.add_run("Team Members: Rishabh, Swarni, Daksha, Prathamesh, Manvi, Sai\nTimeline: Day 1 (2026-07-22) to Tomorrow (2026-07-30)\nLast Updated: 2026-07-29")
+    run_m = p_meta.add_run("Timeline: Day 1 (2026-07-22) to Tomorrow (2026-07-30)\nLast Updated: 2026-07-29")
     run_m.italic = True
     run_m.font.size = Pt(9.5)
     run_m.font.color.rgb = RGBColor(100, 100, 100)
 
     # Executive Overview
-    add_heading(doc, '1. Executive Overview & Index', level=1)
-    add_paragraph(doc, "This document provides a comprehensive chronological index of all development phases, team member task allocations from the Team Guide (Pending_Work_Team_Guide.docx), machine learning model enhancements, UI iterations, and future roadmaps for the Social Media Sentiment Analysis project.", bold=False)
+    add_heading(doc, '1. Executive Overview & System Architecture', level=1)
+    add_paragraph(doc, "This document provides an executive summary and progress report of the development phases, machine learning model enhancements, UI iterations, and technical roadmaps for the Social Media Sentiment Analysis application.", bold=False)
 
     # Report Index Table
-    add_heading(doc, 'Report Index Table', level=2)
+    add_heading(doc, 'Project Milestone Index', level=2)
     
     table = doc.add_table(rows=1, cols=4)
     table.alignment = WD_TABLE_ALIGNMENT.CENTER
     hdr_cells = table.rows[0].cells
-    hdr_titles = ['Day / Date', 'Phase / Focus Area', 'Key Achievements & Team Allocations', 'Status']
+    hdr_titles = ['Day / Date', 'Phase / Focus Area', 'Key Achievements & Deliverables', 'Status']
     for i, title in enumerate(hdr_titles):
         hdr_cells[i].text = title
         hdr_cells[i].paragraphs[0].runs[0].font.bold = True
@@ -83,10 +83,10 @@ def main():
             shd.set('{http://schemas.openxmlformats.org/wordprocessingml/2006/main}fill', '1E56A0')
 
     reports_data = [
-        ("Day 1 (2026-07-22)", "Project Initialization", "Repo setup, README framework, requirements.txt (Rishabh)", "Completed"),
-        ("Day 2 (2026-07-26)", "Core ML Pipeline & Team Guide", "Preprocessing, training, predict scripts (Rishabh/Swarni), team guide creation", "Completed"),
-        ("Day 3 (2026-07-27)", "GUI Layout & Statistics", "statistics.py (Manvi), GUI layout (Daksha), backend wiring (Prathamesh)", "Completed"),
-        ("Day 4 (2026-07-28)", "Model Upgrade & 11k Dataset", "Logistic Regression + TF-IDF, 11k dataset, Model Explanation doc (Rishabh)", "Completed"),
+        ("Day 1 (2026-07-22)", "Project Initialization", "Repo setup, README framework, requirements.txt", "Completed"),
+        ("Day 2 (2026-07-26)", "Core ML Pipeline Engine", "Preprocessing, training, predict scripts, 100-comment test dataset", "Completed"),
+        ("Day 3 (2026-07-27)", "GUI Layout & Analytics", "statistics.py integration, GUI layout, backend event wiring", "Completed"),
+        ("Day 4 (2026-07-28)", "Model Upgrade & 11k Dataset", "Logistic Regression + TF-IDF, 11k dataset, Model Explanation doc", "Completed"),
         ("Day 5 Today (2026-07-29)", "Modular Architecture & UI", "Clean package layout, Tkinter SentimentApp dashboard, file/git cleanup", "Completed"),
         ("Day 6 Tomorrow (2026-07-30+)", "Production & Standalone .exe", "Export functions, single-comment live predictor, PyInstaller .exe build", "Planned")
     ]
@@ -100,14 +100,14 @@ def main():
 
     doc.add_paragraph() # Spacer
 
-    # Team Member Work Allocation Section (Extracted from Pending_Work_Team_Guide.docx)
-    add_heading(doc, '2. Team Member Work Breakdown (Team Guide)', level=1)
-    add_paragraph(doc, "Per the project architecture guide (Pending_Work_Team_Guide.docx), the system modules were distributed across team members as follows:")
+    # System Architecture Package Breakdown
+    add_heading(doc, '2. System Package Architecture', level=1)
+    add_paragraph(doc, "The application follows a modular, decoupled Python architecture organized across distinct functional packages:")
 
-    team_table = doc.add_table(rows=1, cols=4)
-    team_table.alignment = WD_TABLE_ALIGNMENT.CENTER
-    t_hdr = team_table.rows[0].cells
-    t_titles = ['Team Member', 'Assigned Module / File', 'Responsibilities & Functions', 'Module Status']
+    pkg_table = doc.add_table(rows=1, cols=4)
+    pkg_table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    t_hdr = pkg_table.rows[0].cells
+    t_titles = ['Package', 'Module Files', 'Core Responsibilities & Capabilities', 'Status']
     for i, title in enumerate(t_titles):
         t_hdr[i].text = title
         t_hdr[i].paragraphs[0].runs[0].font.bold = True
@@ -125,16 +125,15 @@ def main():
         else:
             shd.set('{http://schemas.openxmlformats.org/wordprocessingml/2006/main}fill', '35A29F')
 
-    team_rows = [
-        ("Rishabh & Swarni", "src/core/preprocess.py\nsrc/core/train.py\nsrc/core/predict.py", "Built regex text cleaner, stop-word filtering, TF-IDF vectorizer, Logistic Regression model trainer, and inference functions.", "Completed"),
-        ("Manvi", "src/analytics/statistics.py", "Built compute_statistics() calculating sentiment counts (pos/neg/neu), percentages, text length stats, and frequency distribution tables.", "Completed"),
-        ("Sai", "src/analytics/visualization.py", "Built Matplotlib chart generators (create_pie_chart, create_bar_chart, create_histogram) for visual analysis.", "Completed (Optional/Independent)"),
-        ("Daksha", "src/ui/ui_manager.py\n(legacy src/gui.py)", "Designed desktop GUI window layout, frame navigation (Home, Results, Graph views), title headers, cards, and buttons.", "Completed"),
-        ("Prathamesh", "src/ui/ui_manager.py\n(backend wiring)", "Wired GUI buttons to predict.py, statistics.py, and CSV file upload handling.", "Completed")
+    pkg_rows = [
+        ("src/core", "preprocess.py\ntrain.py\npredict.py\nmodel_manager.py\npipeline.py", "Handles regex text cleaning, stop-word removal, TF-IDF vectorization, Logistic Regression model lifecycle, and end-to-end execution pipeline.", "Completed"),
+        ("src/analytics", "statistics.py", "Computes total comment counts, positive/negative/neutral distribution ratios, text length metrics, and frequency distribution tables.", "Completed"),
+        ("src/ui", "ui_manager.py\napp.py", "Provides a Tkinter desktop GUI (SentimentApp) with home landing view, stat cards, interactive data treeviews, and non-blocking background threading.", "Completed"),
+        ("src/utils", "helpers.py\ncreate_doc.py\ncreate_change_report.py", "Provides synthetic data generators, docx report compilation scripts, and utility helpers.", "Completed")
     ]
 
-    for row_data in team_rows:
-        row_cells = team_table.add_row().cells
+    for row_data in pkg_rows:
+        row_cells = pkg_table.add_row().cells
         for i, val in enumerate(row_data):
             row_cells[i].text = val
             row_cells[i].paragraphs[0].runs[0].font.size = Pt(9.5)
@@ -150,19 +149,17 @@ def main():
     add_bullet(doc, "Initial Documentation", "Drafted base README outlining project objectives and planned architecture.")
 
     # Day 2
-    add_heading(doc, '4. Day 2 (2026-07-26): Core ML Pipeline & Team Guide', level=1)
+    add_heading(doc, '4. Day 2 (2026-07-26): Core ML Pipeline Engine', level=1)
     add_paragraph(doc, "Day 2 focused on constructing the underlying NLP data pipeline and initial batch test data.")
     add_bullet(doc, "Preprocessing Module", "Built text normalization functions using regex for URL and punctuation stripping, plus NLTK stop-word removal.")
     add_bullet(doc, "Model Training & Inference", "Developed standalone training script (train_model.py) and inference script (predict.py).")
     add_bullet(doc, "Test Dataset Creation", "Generated test_100_comments.csv containing 100 sample social media comments for verification.")
-    add_bullet(doc, "Team Work Guide Creation", "Created Pending_Work_Team_Guide.docx detailing sub-task breakdowns for team contributors (Manvi, Sai, Daksha, Prathamesh).")
 
     # Day 3
-    add_heading(doc, '5. Day 3 (2026-07-27): GUI Integration & Collaboration', level=1)
-    add_paragraph(doc, "Day 3 brought initial graphical user interface development and team code integration.")
-    add_bullet(doc, "Statistics Module (Manvi)", "Integrated statistics.py computing positive, negative, and neutral percentages and frequencies.")
-    add_bullet(doc, "Visualization Module (Sai)", "Created Matplotlib visualization.py module with pie chart, bar chart, and length histogram functions.")
-    add_bullet(doc, "GUI Prototype (Daksha & Prathamesh)", "Integrated GUI layout and button handlers for CSV uploading and statistical displays.")
+    add_heading(doc, '5. Day 3 (2026-07-27): GUI Integration & Analytics', level=1)
+    add_paragraph(doc, "Day 3 brought initial graphical user interface development and statistical integration.")
+    add_bullet(doc, "Statistics Module", "Integrated statistics.py computing positive, negative, and neutral percentages and frequencies.")
+    add_bullet(doc, "GUI Prototype", "Integrated GUI layout and button handlers for CSV uploading and statistical displays.")
 
     # Day 4
     add_heading(doc, '6. Day 4 (2026-07-28): Model Upgrade & 11,000 Comment Dataset', level=1)

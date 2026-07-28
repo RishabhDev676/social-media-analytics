@@ -1,7 +1,6 @@
-# Social Media Sentiment Analysis: Master Progress Report & Team Guide Index
+# Social Media Sentiment Analysis: Master Progress Report & System Index
 
 > **Project Name:** Social Media Sentiment Analysis  
-> **Team Members:** Rishabh, Swarni, Daksha, Prathamesh, Manvi, Sai  
 > **Timeline:** Day 1 (2026-07-22) to Tomorrow & Future Roadmap (2026-07-30+)  
 > **Document Status:** Complete & Up-to-Date  
 > **Last Updated:** July 29, 2026  
@@ -13,10 +12,10 @@
 | Report Section | Phase / Focus Area | Date / Timeline | Primary Output / Deliverables | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | [1. Executive Summary](#1-executive-summary) | Overview & Goals | All Days | Core Sentiment Classification Engine & GUI | Baseline Complete |
-| [2. Team Guide Work Allocation](#2-team-guide-work-allocation-breakdown) | Team Task Assignment Matrix | 2026-07-26+ | Module breakdown from `Pending_Work_Team_Guide.docx` | Completed |
+| [2. System Package Architecture](#2-system-package-architecture) | Package Architecture Matrix | All Days | Clean package breakdown across `src/` modules | Completed |
 | [3. Day 1 Report](#3-day-1-2026-07-22-project-initialization) | Repository & Environment Setup | 2026-07-22 | Git init, `requirements.txt`, `README.md` framework | Completed |
-| [4. Day 2 Report](#4-day-2-2026-07-26-core-ml-pipeline--team-guide) | Core NLP Engine & Data Processing | 2026-07-26 | `preprocess.py`, `train_model.py`, `predict.py`, 100-comment test dataset | Completed |
-| [5. Day 3 Report](#5-day-3-2026-07-27-gui-prototype--collaboration) | Interface Development & Teamwork | 2026-07-27 | Initial GUI frame navigation, file dialogs, `statistics.py` | Completed |
+| [4. Day 2 Report](#4-day-2-2026-07-26-core-ml-pipeline-engine) | Core NLP Engine & Data Processing | 2026-07-26 | `preprocess.py`, `train_model.py`, `predict.py`, 100-comment test dataset | Completed |
+| [5. Day 3 Report](#5-day-3-2026-07-27-gui-prototype--analytics) | Interface Development & Analytics | 2026-07-27 | Initial GUI frame navigation, file dialogs, `statistics.py` | Completed |
 | [6. Day 4 Report](#6-day-4-2026-07-28-model-upgrade--11000-comment-dataset) | Model & Dataset Upgrade | 2026-07-28 | Logistic Regression + TF-IDF, 11k dataset, `Model_Explanation.docx` | Completed |
 | [7. Day 5 Report (Today)](#7-day-5-today-2026-07-29-modular-architecture--ui-redesign) | Modular Refactoring & Modern UI | 2026-07-29 | `SentimentApp` Dashboard, package architecture, clean repo & git history | Completed |
 | [8. Day 6 Report (Tomorrow & Beyond)](#8-day-6-tomorrow-2026-07-30-production-roadmap) | Production Readiness & Packaging | 2026-07-30+ | Excel/PDF export, single-comment live predictor, standalone `.exe` build | Planned |
@@ -34,17 +33,16 @@ Key metrics of current release:
 
 ---
 
-## 2. Team Guide Work Allocation Breakdown
+## 2. System Package Architecture
 
-From the project team guide (`docs/Pending_Work_Team_Guide.docx`), the team divided responsibilities across decoupled modules:
+The project architecture is structured into decoupled, modular packages:
 
-| Team Member(s) | Assigned Module / File Path | Key Responsibilities & Functions | Integration Status |
+| Package | Module File Paths | Core Responsibilities & Capabilities | Integration Status |
 | :--- | :--- | :--- | :--- |
-| **Rishabh & Swarni** | [src/core/preprocess.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/core/preprocess.py)<br>[src/core/train.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/core/train.py)<br>[src/core/predict.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/core/predict.py) | Created text normalization algorithms (URL removal, punctuation stripping, NLTK stop-word filtering), TF-IDF vectorization, Logistic Regression training pipeline, and batch inference. | **Completed** |
-| **Manvi** | [src/analytics/statistics.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/analytics/statistics.py) | Developed `compute_statistics()` calculating total comments, sentiment counts (positive, negative, neutral), percentage ratios, text length metrics, and frequency distribution tables. | **Completed** |
-| **Sai** | `src/analytics/visualization.py` | Developed Matplotlib chart generation functions (`create_pie_chart`, `create_bar_chart`, `create_histogram`). | **Completed** *(Kept separate from main UI per clean UI guidelines)* |
-| **Daksha** | [src/ui/ui_manager.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/ui/ui_manager.py) | Designed desktop GUI window structure, frame navigation states (Home, Loading, Results), summary cards, and data table layouts. | **Completed** |
-| **Prathamesh** | [src/ui/ui_manager.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/ui/ui_manager.py) | Handled backend event wiring, connecting file pickers and single comment inputs to `predict.py` and `statistics.py`. | **Completed** |
+| **src/core** | [preprocess.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/core/preprocess.py)<br>[train.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/core/train.py)<br>[predict.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/core/predict.py)<br>[model_manager.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/core/model_manager.py)<br>[pipeline.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/core/pipeline.py) | Created text normalization algorithms (URL removal, regex punctuation stripping, NLTK stop-word filtering), TF-IDF vectorization, Logistic Regression training pipeline, model lifecycle caching, and batch inference. | **Completed** |
+| **src/analytics** | [statistics.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/analytics/statistics.py) | Developed `compute_statistics()` calculating total comments, sentiment counts (positive, negative, neutral), percentage ratios, text length metrics, and frequency distribution tables. | **Completed** |
+| **src/ui** | [ui_manager.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/ui/ui_manager.py)<br>[app.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/app.py) | Designed desktop GUI window structure, frame navigation states (Home, Loading, Results), summary cards, data table layouts, and background threading. | **Completed** |
+| **src/utils** | [helpers.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/utils/helpers.py)<br>[create_doc.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/utils/create_doc.py)<br>[create_change_report.py](file:///c:/Users/risha/Desktop/SF%20Project/social-media-analytics/src/utils/create_change_report.py) | Synthetic dataset generator, Word doc report compilation scripts, and utility helpers. | **Completed** |
 
 ---
 
@@ -65,28 +63,26 @@ Establish repository foundation, define project scope, and set up dependency man
 
 ---
 
-## 4. Day 2 (2026-07-26): Core ML Pipeline & Team Guide
+## 4. Day 2 (2026-07-26): Core ML Pipeline Engine
 
 ### 🎯 Objectives
-Implement core NLP data processing modules, training pipelines, baseline test datasets, and create team work allocation guide.
+Implement core NLP data processing modules, training pipelines, and baseline test datasets.
 
 ### 🛠️ Key Achievements
 - **Text Preprocessing Module:** Built regex text cleaner and NLTK stop-word remover.
 - **Model Training Pipeline:** Developed standalone training script and inference functions.
 - **Test Dataset Creation:** Generated `data/uploaded/test_100_comments.csv` containing 100 sample comments for batch prediction testing.
-- **Team Work Allocation Guide:** Authored `docs/Pending_Work_Team_Guide.docx` establishing step-by-step instructions and testing strategies for Manvi, Sai, Daksha, and Prathamesh.
 
 ---
 
-## 5. Day 3 (2026-07-27): GUI Prototype & Collaboration
+## 5. Day 3 (2026-07-27): GUI Prototype & Analytics
 
 ### 🎯 Objectives
-Build initial desktop graphical user interface and integrate team member additions.
+Build initial desktop graphical user interface and integrate statistical calculations.
 
 ### 🛠️ Key Achievements
-- **Statistics Module (Manvi):** Integrated `statistics.py` computing positive, negative, and neutral percentages and frequencies.
-- **Visualization Module (Sai):** Integrated `visualization.py` for chart rendering.
-- **GUI Layout & Wiring (Daksha & Prathamesh):** Integrated initial GUI frames and event handling.
+- **Statistics Module:** Integrated `statistics.py` computing positive, negative, and neutral percentages and frequencies.
+- **GUI Layout & Wiring:** Integrated initial GUI frames and event handling.
 
 ---
 
