@@ -46,15 +46,14 @@ def generate_sentence(sentiment):
         
     return sentence
 
-def main():
+def generate_dataset(num_comments=11000):
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    output_csv_labels = os.path.join(base_dir, "..", "data", "comments.csv")
-    output_csv_no_labels = os.path.join(base_dir, "..", "data.csv")
+    output_csv_labels = os.path.join(base_dir, "..", "..", "data", "raw", "comments.csv")
+    output_csv_no_labels = os.path.join(base_dir, "..", "..", "data", "raw", "data.csv")
     
     sentiments = ['Positive', 'Negative', 'Neutral']
     weights = [0.4, 0.4, 0.2]  # 40% pos, 40% neg, 20% neu
     
-    num_comments = 11000
     print(f"Generating {num_comments} comments...")
     
     with open(output_csv_labels, 'w', newline='', encoding='utf-8') as f_labels, \
@@ -83,4 +82,4 @@ def main():
     print(f"Also saved {num_comments} comments (text only) to '{output_csv_no_labels}'.")
 
 if __name__ == "__main__":
-    main()
+    generate_dataset()
