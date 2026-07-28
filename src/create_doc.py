@@ -25,71 +25,56 @@ def main():
     doc = Document()
     
     # Title
-    add_heading(doc, 'Sentiment Analysis Model: Code Explanation', level=0)
-    add_paragraph(doc, 'This document provides a simple and detailed explanation of our sentiment analysis model, focusing on the steps immediately following data preprocessing.', bold=True)
+    add_heading(doc, 'Social Media Sentiment Analysis: Full Project Guide', level=0)
+    add_paragraph(doc, 'This document explains every file in our project in simple, easy-to-understand terms. This will help you understand how the code works from start to finish.', bold=True)
     
-    # Section 1: The Imports
-    add_heading(doc, '1. The Imports (The Tools We Use)', level=1)
-    add_paragraph(doc, "Before we do anything, we need to import the right tools into Python. Think of imports like pulling out different tools from a toolbox.")
-    
-    add_code(doc, "import joblib\nfrom sklearn.feature_extraction.text import TfidfVectorizer\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, classification_report")
-    
-    doc.add_paragraph("• joblib: A tool used to save (or \"dump\") our trained model so we can use it later without retraining it from scratch.")
-    doc.add_paragraph("• sklearn (Scikit-Learn): This is the main machine learning library in Python. We import several specific tools from it:")
-    doc.add_paragraph("  - TfidfVectorizer: This translates our text comments into numbers so the math model can understand them.")
-    doc.add_paragraph("  - train_test_split: This cuts our dataset into two pieces: one for learning (training) and one for a final exam (testing).")
-    doc.add_paragraph("  - LogisticRegression: The actual brain/algorithm that will learn how to guess the sentiment.")
-    doc.add_paragraph("  - accuracy_score & classification_report: Tools to check the model's \"report card\" and see how well it performed.")
+    # Overview
+    add_heading(doc, '1. Project Overview', level=1)
+    doc.add_paragraph("Our project takes social media comments and predicts whether they are Positive, Negative, or Neutral. We do this in several steps, separated into different Python files:")
+    doc.add_paragraph("• preprocessing.py: Cleans up messy text.")
+    doc.add_paragraph("• train_model.py: Teaches the AI using our 11,000 comment dataset.")
+    doc.add_paragraph("• predict.py: Uses the trained AI to analyze new comments.")
+    doc.add_paragraph("• statistics.py: Crunches the numbers to show overall sentiment.")
+    doc.add_paragraph("• gui.py: Provides a visual app for the user to upload files.")
 
-    # Section 2: Feature Extraction (TF-IDF)
-    add_heading(doc, '2. Feature Extraction (Turning Text into Numbers)', level=1)
-    add_paragraph(doc, "Machine learning models cannot read English words like \"good\" or \"terrible.\" They only understand numbers. Feature extraction translates the text into a numerical format.")
-    
-    add_code(doc, "vectorizer = TfidfVectorizer(ngram_range=(1, 2), stop_words='english', max_features=5000)\nX = vectorizer.fit_transform(df[\"cleaned_comment\"])\ny = df[\"sentiment\"]")
-    
-    doc.add_paragraph("• TfidfVectorizer: We use a technique called TF-IDF (Term Frequency-Inverse Document Frequency). It looks at how often a word appears in a comment but scales it down if the word is too common across all comments (like \"the\", \"is\").")
-    doc.add_paragraph("• stop_words='english': Automatically ignores common English words (like \"and\", \"the\") that don't help determine sentiment.")
-    doc.add_paragraph("• ngram_range=(1,2): Instead of just looking at single words (like \"not\" and \"good\"), it also looks at pairs of words together (like \"not good\"). This captures a lot more context!")
-    doc.add_paragraph("• X: This is our new matrix of numbers (features) representing all the comments.")
-    doc.add_paragraph("• y: This is the actual answer key (the sentiments: Positive, Negative, Neutral).")
+    # Preprocessing
+    add_heading(doc, '2. preprocessing.py (Cleaning the Data)', level=1)
+    add_paragraph(doc, "People type messily on social media. Before the AI can read it, we have to clean the text.")
+    add_code(doc, "text = re.sub(r\"http\S+|www\S+|https\S+\", \"\", text)\ntext = re.sub(r\"[^a-zA-Z\s]\", \"\", text)\nwords = [word for word in words if word not in stop_words]")
+    doc.add_paragraph("• We use 're' (Regular Expressions) to search and destroy web links (URLs).")
+    doc.add_paragraph("• We delete all punctuation, numbers, and emojis so only English letters remain.")
+    doc.add_paragraph("• We use the 'NLTK' library to remove \"stop words.\" Stop words are common words like \"the\", \"and\", or \"is\" that don't tell us anything about sentiment.")
 
-    # Section 3: Train-Test Split
-    add_heading(doc, '3. Train-Test Split (Preparing for the Exam)', level=1)
-    add_paragraph(doc, "If we let the model learn on all our data, we wouldn't have any unseen data left to test it on. It would be like giving a student the exam questions to study with!")
-    
-    add_code(doc, "X_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42\n)")
-    
-    doc.add_paragraph("• We use train_test_split to chop our data into two groups.")
-    doc.add_paragraph("• test_size=0.2: This means 80% of our 11,000 comments (8,800) will be used to train the model, and 20% (2,200) will be hidden away as the final test.")
-    doc.add_paragraph("• random_state=42: This just ensures the data is shuffled exactly the same way every time we run the code.")
+    # Training
+    add_heading(doc, '3. train_model.py (Teaching the AI)', level=1)
+    add_paragraph(doc, "This script loads our huge 11,000-comment dataset and trains a Machine Learning model.")
+    add_code(doc, "vectorizer = TfidfVectorizer(ngram_range=(1, 2), stop_words='english')\nX = vectorizer.fit_transform(df[\"cleaned_comment\"])\n\nmodel = LogisticRegression(max_iter=1000)\nmodel.fit(X_train, y_train)")
+    doc.add_paragraph("• TfidfVectorizer: The AI doesn't understand words, only math. This tool converts our sentences into numerical scores. 'ngram_range=(1, 2)' means it looks at single words AND pairs of words (like \"not good\").")
+    doc.add_paragraph("• Logistic Regression: This is our AI brain. We show it 80% of our data (the training set) and say, \"Find the mathematical pattern that makes a comment Positive or Negative.\"")
+    doc.add_paragraph("• Once trained, our model achieved a ~94.8% accuracy on the test exam! We then use 'joblib.dump' to save this trained brain into '.pkl' files so we don't have to retrain it every time.")
 
-    # Section 4: Training the Model
-    add_heading(doc, '4. Training the Model (Logistic Regression)', level=1)
-    add_paragraph(doc, "Now we actually build and train the AI.")
-    
-    add_code(doc, "model = LogisticRegression(max_iter=1000)\nmodel.fit(X_train, y_train)")
-    
-    doc.add_paragraph("• Logistic Regression: Despite the word 'regression', this is an algorithm used for classification. It tries to draw statistical lines between what makes a comment Positive, Negative, or Neutral based on the numerical TF-IDF scores.")
-    doc.add_paragraph("• model.fit(X_train, y_train): This is where the actual learning happens. We feed the model the training data (X_train) and the correct answers (y_train). The model adjusts its internal math to get the answers right as often as possible.")
+    # Prediction
+    add_heading(doc, '4. predict.py (Making New Guesses)', level=1)
+    add_paragraph(doc, "Now that the AI is smart and saved to a file, this script loads it up to analyze brand-new comments.")
+    add_code(doc, "model = joblib.load(model_path)\nvectorizer = joblib.load(vectorizer_path)\n\ntext_features = vectorizer.transform([cleaned_text])\nprediction = model.predict(text_features)")
+    doc.add_paragraph("• joblib.load: Wakes up our saved model from the hard drive.")
+    doc.add_paragraph("• vectorizer.transform: Turns the new user comment into math numbers exactly the same way we did during training.")
+    doc.add_paragraph("• model.predict: The AI looks at the numbers and spits out a final guess: Positive, Negative, or Neutral.")
 
-    # Section 5: Model Evaluation
-    add_heading(doc, '5. Evaluating the Model (The Final Exam)', level=1)
-    add_paragraph(doc, "Once the model has learned, we need to test it on the 20% of data it has never seen before.")
-    
-    add_code(doc, "y_pred = model.predict(X_test)\naccuracy = accuracy_score(y_test, y_pred)\nprint(classification_report(y_test, y_pred))")
-    
-    doc.add_paragraph("• model.predict(X_test): We give the model the unseen test comments and ask it to predict the sentiments.")
-    doc.add_paragraph("• accuracy_score: We compare the model's guesses (y_pred) to the actual real answers (y_test). Our model gets an accuracy of about 94.8%!")
-    doc.add_paragraph("• classification_report: This prints out a detailed breakdown showing how well the model performed on each specific category (Positive vs. Negative vs. Neutral).")
+    # Statistics
+    add_heading(doc, '5. statistics.py (Crunching the Numbers)', level=1)
+    add_paragraph(doc, "Once we have predictions for hundreds of comments, we want to see the big picture.")
+    add_code(doc, "counts = df[\"sentiment\"].value_counts()\npositive_pct = (positive_count / total) * 100")
+    doc.add_paragraph("• We use the 'Pandas' library to count how many comments fell into each bucket.")
+    doc.add_paragraph("• We calculate percentages to show the user exactly what portion of their audience is happy versus unhappy.")
 
-    # Section 6: Saving the Model
-    add_heading(doc, '6. Saving the Model for the Future', level=1)
-    add_paragraph(doc, "Finally, we don't want to retrain the model every single time we want to predict a new tweet or comment.")
-    
-    add_code(doc, "joblib.dump(model, model_path)\njoblib.dump(vectorizer, vectorizer_path)")
-    
-    doc.add_paragraph("• joblib.dump: This compresses and saves both our trained Logistic Regression model and our TF-IDF Vectorizer into physical files (.pkl files).")
-    doc.add_paragraph("• When we want to use the app in the future, we just load these files, and the model instantly remembers everything it learned.")
+    # GUI
+    add_heading(doc, '6. gui.py (The Visual App)', level=1)
+    add_paragraph(doc, "Users don't want to type code; they want buttons to click. We built a desktop app using 'Tkinter'.")
+    add_code(doc, "import tkinter as tk\nfrom tkinter import filedialog\n\nfile_path = filedialog.askopenfilename()")
+    doc.add_paragraph("• Tkinter (tk): This is Python's built-in tool for drawing windows, buttons, and text boxes.")
+    doc.add_paragraph("• filedialog: This opens up your computer's standard file browser so the user can visually select their CSV file to upload.")
+    doc.add_paragraph("• When the user clicks 'Upload', our app grabs the file, runs it through predict.py, and displays the results!")
 
     # Save Document
     base_dir = os.path.dirname(os.path.abspath(__file__))
