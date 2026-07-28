@@ -128,8 +128,7 @@ Rendered by src.ui.ui_manager.py (Dashboard)
 | **Daksha** | GUI design, layout, and UX threading |
 | **Prathamesh** | Prediction integration and Model Manager |
 | **Manvi** | Statistical analysis pipeline |
-
-*(Note: Data Visualization was deprecated as part of the phase 7 redesign to prioritize clean statistical cards).*
+| **Sai** | Data analytics and visualization components |
 
 ---
 
