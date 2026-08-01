@@ -2,6 +2,8 @@ import os
 import sys
 import tkinter as tk
 
+import customtkinter as ctk
+
 # 1. Setup Environment
 # Ensure the root directory of the project is in the Python path
 # This prevents "ModuleNotFoundError: No module named 'src'"
@@ -20,17 +22,15 @@ except ImportError as e:
 def main():
     """
     Bootstrapper for the Social Media Sentiment Analysis application.
-    Initializes the Tkinter root and launches the Dashboard.
+    Initializes the CustomTkinter root and launches the Dashboard.
     """
     print("Booting Social Media Sentiment Analysis Dashboard...")
-    
-    # Initialize UI
-    root = tk.Tk()
-    
-    # Instantiate the application
+
+    ctk.set_appearance_mode("light")
+    ctk.set_default_color_theme("blue")
+
+    root = ctk.CTk()
     app = SentimentApp(root)
-    
-    # Start the event loop
     root.mainloop()
 
 if __name__ == "__main__":

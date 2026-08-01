@@ -29,12 +29,13 @@ Below is the directory catalog of all project documentation files available in t
 | :--- | :--- | :--- | :--- | :--- |
 | [1. Executive Summary](#executive-summary) | Overview & Metrics | All Days | Core Classification Engine & Dashboard | Baseline Complete |
 | [2. System Package Architecture](#system-package-architecture) | Package Architecture | All Days | Decoupled package structure across `src/` | Completed |
-| [3. Day 1 Report](#day-1-report) | Setup & Requirements | 2026-07-22 | Git init, `requirements.txt`, `README.md` | Completed |
-| [4. Day 2 Report](#day-2-report) | NLP Engine & Processing | 2026-07-26 | `preprocess.py`, `train.py`, `predict.py` | Completed |
-| [5. Day 3 Report](#day-3-report) | UI Layout & Statistics | 2026-07-27 | Initial GUI frame navigation & `statistics.py` | Completed |
-| [6. Day 4 Report](#day-4-report) | Model Upgrade & 11k Dataset | 2026-07-28 | Logistic Regression + TF-IDF, 11k dataset | Completed |
-| [7. Day 5 Report (Today)](#day-5-report) | Architecture & Dashboard UI | 2026-07-29 | `SentimentApp` Dashboard & package refactoring | Completed |
-| [8. Day 6 Report (Tomorrow)](#day-6-report) | Distribution & Packaging | 2026-07-30+ | Excel export, live predictor, `.exe` build | Planned |
+| [3. UI Architecture Guide](#ui-editing-guide) | GUI Editing Guide | 2026-07-29 | Where to edit homepage, upload, results, report, and plots | Completed |
+| [4. Day 1 Report](#day-1-report) | Setup & Requirements | 2026-07-22 | Git init, `requirements.txt`, `README.md` | Completed |
+| [5. Day 2 Report](#day-2-report) | NLP Engine & Processing | 2026-07-26 | `preprocess.py`, `train.py`, `predict.py` | Completed |
+| [6. Day 3 Report](#day-3-report) | UI Layout & Statistics | 2026-07-27 | Initial GUI frame navigation & `statistics.py` | Completed |
+| [7. Day 4 Report](#day-4-report) | Model Upgrade & 11k Dataset | 2026-07-28 | Logistic Regression + TF-IDF, 11k dataset | Completed |
+| [8. Day 5 Report (Today)](#day-5-report) | Architecture & Dashboard UI | 2026-07-29 | `SentimentApp` Dashboard & package refactoring | Completed |
+| [9. Day 6 Report (Tomorrow)](#day-6-report) | Distribution & Packaging | 2026-07-30+ | Excel export, live predictor, `.exe` build | Planned |
 
 ---
 
@@ -64,8 +65,37 @@ The project architecture is structured into decoupled, modular packages:
 
 ---
 
+<a id="ui-editing-guide"></a>
+## 3. UI Architecture Guide for Future Editing
+
+The project now uses a clean page-based desktop UI structure so changes are easier to manage.
+
+### Main Files to Edit
+- [app.py](../app.py) → launches the application and creates the main window.
+- [src/ui/ui_manager.py](../src/ui/ui_manager.py) → contains the full GUI flow and all page builders.
+- [src/core/pipeline.py](../src/core/pipeline.py) → connects preprocessing, prediction, and statistics.
+- [src/analytics/statistics.py](../src/analytics/statistics.py) → computes the summary values shown in the UI.
+
+### What Was Implemented Recently
+- Added a homepage, upload page, loading page, and results page.
+- Replaced the earlier direct analysis jump with a staged flow.
+- Added results-page actions for "Show Plots", "Show Report", and "View Data".
+- Migrated the GUI layer to CustomTkinter for a more modern desktop look.
+
+### How to Change Specific Parts
+- Homepage text or layout: update `_init_home_view()` inside [src/ui/ui_manager.py](../src/ui/ui_manager.py).
+- Upload page layout: update `_init_upload_view()` inside [src/ui/ui_manager.py](../src/ui/ui_manager.py).
+- Results page layout: update `_init_results_view()` and `render_results()` inside [src/ui/ui_manager.py](../src/ui/ui_manager.py).
+- Report content: update `_build_report_text()` and `show_report()` inside [src/ui/ui_manager.py](../src/ui/ui_manager.py).
+- Plot content: update `show_plots()` inside [src/ui/ui_manager.py](../src/ui/ui_manager.py).
+- Page switching: update the `show_frame()` logic inside [src/ui/ui_manager.py](../src/ui/ui_manager.py).
+
+This structure keeps the UI logic separated from the analysis logic, making the project easier to extend.
+
+---
+
 <a id="day-1-report"></a>
-## 3. Day 1 (2026-07-22): Project Initialization
+## 4. Day 1 (2026-07-22): Project Initialization
 
 ### 🎯 Objectives
 Establish repository foundation, define project scope, and set up dependency management.

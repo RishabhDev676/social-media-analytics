@@ -6,59 +6,105 @@ A Python-based desktop application that analyzes social media data using Machine
 
 ## 🚀 Features
 
-- **One-Click Launch:** Simply run `python app.py` to start the entire dashboard.
+- **One-Click Launch:** Run `python app.py` to start the desktop app.
+- **Modern Multi-Page GUI:** The application now opens with a homepage, then moves to an upload page, then a results page.
+- **CustomTkinter UI:** The screen layout uses CustomTkinter for a cleaner and more modern interface.
 - **Smart Model Manager:** Automatically detects missing models, trains them in the background, and caches them for fast predictions.
-- **Asynchronous Execution:** Heavy machine learning computations run in background threads with a responsive Loading Screen.
-- **Text Preprocessing:** Automatically cleans data (lowercase, removes URLs, punctuation, stopwords).
-- **Sentiment Analysis:** Powered by Logistic Regression and TF-IDF feature extraction.
-- **Statistical Analysis:** Calculates sentiment distribution, total counts, and dominant sentiment.
-- **Interactive Dashboard:** View processed comments, clean text, and sentiment scores in a scrollable data table alongside summary stat cards.
+- **Asynchronous Execution:** Heavy machine learning work runs in background threads while a loading screen is shown.
+- **Text Preprocessing:** Removes URLs, punctuation, and stopwords before prediction.
+- **Sentiment Analysis:** Uses TF-IDF + Logistic Regression for classification.
+- **Statistical Analysis:** Shows sentiment counts, percentages, dominant sentiment, and text-length stats.
+- **Result Actions:** From the results page you can open plots, report details, and the processed data table.
 
 ---
 
 ## 🛠️ Technologies Used
 
-- **Python** 
-- **Tkinter (ttk)** (Modern GUI)
-- **Pandas** (Data handling)
+- **Python**
+- **CustomTkinter** (modern GUI widgets)
+- **Tkinter/ttk** (progress bars, treeviews, dialogs)
+- **Pandas** (data handling)
 - **Scikit-learn** (TF-IDF, Logistic Regression)
-- **Joblib** (Model saving/loading)
-- **Threading** (Asynchronous operations)
+- **Joblib** (model saving/loading)
+- **Matplotlib** (plots)
+- **Threading** (background processing)
 
 ---
 
-## 📂 Clean Architecture Structure
+## 📂 Project Architecture
 
 ```
 social-media-analytics/
 │
-├── app.py                     ← Application entry point (One-command launch)
-├── data/                      
+├── app.py                     ← Entry point for the desktop app
+├── data/
 │   ├── raw/                   ← Raw training data
-│   └── uploaded/              ← CSV files for testing
-│
-├── models/                    
-│   ├── sentiment_model.pkl    ← Auto-managed Logistic Regression model
-│   └── vectorizer.pkl         ← Auto-managed TF-IDF vectorizer
-│
+│   ├── processed/             ← Saved prediction output
+│   └── uploaded/              ← CSV files chosen by the user
+├── models/                    ← Trained ML model files
 ├── src/
-│   ├── analytics/             
-│   │   └── statistics.py      ← Statistical data calculation
-│   ├── core/                  
-│   │   ├── pipeline.py        ← Glues prediction and statistics together
-│   │   ├── predict.py         ← Prediction functions
-│   │   ├── preprocess.py      ← Text cleaning functions
+│   ├── analytics/
+│   │   └── statistics.py      ← Statistics calculations
+│   ├── core/
+│   │   ├── pipeline.py        ← Main analysis pipeline
+│   │   ├── predict.py         ← Prediction logic
+│   │   ├── preprocess.py      ← Text cleaning logic
 │   │   ├── train.py           ← Model training logic
-│   │   └── model_manager.py   ← Model lifecycle auto-manager
-│   ├── ui/                    
-│   │   └── ui_manager.py      ← Object-Oriented Tkinter Dashboard
+│   │   └── model_manager.py   ← Model loading/training manager
+│   ├── ui/
+│   │   └── ui_manager.py      ← All GUI pages: Home, Upload, Loading, Results
 │   └── utils/
-│       └── helpers.py         ← Utility scripts
-│
+│       ├── helpers.py
+│       ├── create_doc.py
+│       ├── create_change_report.py
+│       └── create_pending_work_doc.py
 ├── docs/                      ← Project documentation
 ├── requirements.txt
 └── README.md
 ```
+
+---
+
+## 🧭 Where to Edit Different Parts
+
+### 1. Homepage UI
+Edit [src/ui/ui_manager.py](src/ui/ui_manager.py) and change the `_init_home_view()` method.
+
+### 2. Upload Page UI
+Edit [src/ui/ui_manager.py](src/ui/ui_manager.py) and change the `_init_upload_view()` method.
+
+### 3. Results Page UI
+Edit [src/ui/ui_manager.py](src/ui/ui_manager.py) and change the `_init_results_view()` method plus `render_results()`.
+
+### 4. Buttons on the Results Page
+Edit [src/ui/ui_manager.py](src/ui/ui_manager.py) for:
+- `show_plots()`
+- `show_report()`
+- `show_data_table()`
+- `_build_report_text()`
+
+### 5. Analysis Logic
+Edit the ML/backend flow in:
+- [src/core/pipeline.py](src/core/pipeline.py)
+- [src/core/predict.py](src/core/predict.py)
+- [src/core/preprocess.py](src/core/preprocess.py)
+- [src/analytics/statistics.py](src/analytics/statistics.py)
+
+### 6. Data Files
+Use the CSV files in [data/raw](data/raw), [data/uploaded](data/uploaded), and [data/processed](data/processed) for testing and sample input.
+
+---
+
+## 🔄 Current UI Flow
+
+1. The app opens on the Home page.
+2. Click the upload button to choose a CSV file.
+3. Click Analyze Sentiments.
+4. The app shows a loading screen.
+5. After analysis finishes, the Results page opens.
+6. From the Results page, you can view plots, the report, or the processed data.
+
+This is implemented in [src/ui/ui_manager.py](src/ui/ui_manager.py).
 
 ---
 
