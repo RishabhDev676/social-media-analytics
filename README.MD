@@ -43,8 +43,11 @@ social-media-analytics/
 │   └── uploaded/              ← CSV files chosen by the user
 ├── models/                    ← Trained ML model files
 ├── src/
+│   ├── gui.py                 ← Modern CustomTkinter GUI wrapper
+│   ├── launcher.py            ← Application launcher logic
+│   ├── statistics_module.py   ← Core statistics computations
 │   ├── analytics/
-│   │   └── statistics.py      ← Statistics calculations
+│   │   └── statistics.py      ← Extended analytics calculations
 │   ├── core/
 │   │   ├── pipeline.py        ← Main analysis pipeline
 │   │   ├── predict.py         ← Prediction logic
@@ -58,6 +61,8 @@ social-media-analytics/
 │       ├── create_doc.py
 │       ├── create_change_report.py
 │       └── create_pending_work_doc.py
+├── tests/                     ← Automated testing suite
+│   └── test_ui_flow.py        ← UI navigation flow tests
 ├── docs/                      ← Project documentation
 ├── requirements.txt
 └── README.md
